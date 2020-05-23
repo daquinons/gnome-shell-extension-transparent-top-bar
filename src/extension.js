@@ -90,16 +90,12 @@ var Extension = class Extension {
                     && metaWindow.get_window_type() !== Meta.WindowType.DESKTOP;
         });
 
-        // Check if at least one window is near enough to the panel.
-        const panelTop = Main.panel.get_transformed_position()[1];
-        const panelBottom = panelTop + Main.panel.get_height();
-        const scale = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-        const isNearEnough = windows.some(metaWindow => {
-            const verticalPosition = metaWindow.get_frame_rect().y;
-            return verticalPosition < panelBottom + 5 * scale;
+        // Check if at least one window is maximized.
+        const isMaximized = windows.some(metaWindow => {
+            return metaWindow.maximized_vertically && metaWindow.maximized_horizontally;
         });
 
-        this._setTransparent(!isNearEnough);
+        this._setTransparent(!isMaximized);
     }
 
     _setTransparent(transparent) {
