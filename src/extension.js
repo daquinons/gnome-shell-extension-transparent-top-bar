@@ -92,7 +92,7 @@ var Extension = class Extension {
 
         // Check if at least one window is maximized.
         const isMaximized = windows.some(metaWindow => {
-            return metaWindow.maximized_vertically && metaWindow.maximized_horizontally;
+            return metaWindow.maximized_vertically || metaWindow.maximized_horizontally;
         });
 
         this._setTransparent(!isMaximized);
