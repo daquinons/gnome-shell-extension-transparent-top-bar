@@ -1,10 +1,8 @@
-const Meta = imports.gi.Meta;
-const St = imports.gi.St;
+const { Meta, St } = imports.gi;
 
 const Main = imports.ui.main;
 
-var Extension = class Extension {
-
+class Extension {
     constructor() {
         this._actorSignalIds = null;
         this._windowSignalIds = null;
@@ -56,7 +54,7 @@ var Extension = class Extension {
 
     _onWindowActorAdded(container, metaWindowActor) {
         this._windowSignalIds.set(metaWindowActor, [
-            metaWindowActor.connect('allocation-changed', this._updateTransparent.bind(this)),
+            metaWindowActor.connect('notify::allocation', this._updateTransparent.bind(this)),
             metaWindowActor.connect('notify::visible', this._updateTransparent.bind(this))
         ]);
     }
@@ -70,7 +68,6 @@ var Extension = class Extension {
     }
 
     _updateTransparent() {
-
         if (Main.panel.has_style_pseudo_class('overview') || !Main.sessionMode.hasWindows) {
             this._setTransparent(true);
             return;
